@@ -1,0 +1,14 @@
+You have to provide the VBoxLinuxAdditions.run yourself.
+ The file is found in the GuestAddition ISO; VBoxGuestAdditions.iso
+
+You can get the files by either:
+ Mounting the Guest additions CD (Units -> Install guest additions (Host+D) )
+   Then copying the VBoxLinuxAdditions.run in to this 'files' directory.
+
+  Or copy the VBoxGuestAdditions.iso into your OS, then 
+    fuseiso  VBoxGuestAdditions.iso ~/tmp
+    cp ~/tmp/VBoxLinuxAdditions.run .
+    fusemount -u ~/tmp
+
+    The iso, on windows, is in: C:\Program Files\Oracle\VirtualBox
+
