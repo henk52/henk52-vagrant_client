@@ -1,0 +1,45 @@
+Summary: <%= hModulefileInformation["summary"] %>
+Name: <%= hModulefileInformation["name"] %>
+Version: <%= hModulefileInformation["version"] %>
+Release: 1%{?dist}
+License: <%= hModulefileInformation["license"] %>
+Group: System Environment/Shells
+BuildArch: noarch
+#BuildRoot: %{_builddir}/<%= hModulefileInformation["name"] %>-root
+
+<% if hModulefileInformation.has_key?("project_page") then %>
+URL: <%= hModulefileInformation["project_page"] %>
+<% end %>
+Distribution: whatever
+Vendor: Wonder packes in creation
+Packager: fred@wonderpacket.net
+#Provides: 
+#Requires: ee
+
+%description
+<%= hModulefileInformation["description"] %>
+
+
+%prep
+exit 0
+
+%build
+exit 0
+
+%install
+echo "INSTALL"
+mkdir -p %{buildroot}/etc/puppet/modules
+cp -r /home/vagrant/reidmv-motd %{buildroot}/etc/puppet/modules
+exit 0
+
+%clean
+exit 0
+
+%files
+%defattr(-,root,root)
+/etc/puppet/modules/reidmv-motd/README
+/etc/puppet/modules/reidmv-motd/Modulefile
+/etc/puppet/modules/reidmv-motd/manifests/init.pp
+/etc/puppet/modules/reidmv-motd/spec/spec_helper.rb
+/etc/puppet/modules/reidmv-motd/tests/init.pp
+

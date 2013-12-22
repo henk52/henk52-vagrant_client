@@ -1,5 +1,7 @@
 #!/usr/bin/ruby
 
+require 'erb'
+
 # This program generates the OS package code based on the Puppet Modulefile.
 #  Currently it only supports Fedora.
 
@@ -74,7 +76,7 @@ arLinesRead.each { |szRawLine|
       #puts "Key: =#{szKey}=, Value: =#{szValue}="
 
       # replace all ' with " in szValue.
-      hModulefileInformation[szKey] = szValue
+      hModulefileInformation[szKey] = szValue[1, szValue.length()-2]
     end
   end
 }
@@ -94,3 +96,10 @@ if ( nRequiredKeyMissing != 0 ) then
   puts "Please define the missing key(s) in the Modulefile: #{f_szAbsolutePathToModule}/Modulefile"
   exit(1)
 end
+
+szSpecTemplate = "#{f_szScriptFullPath}/rpm_spec.erb"
+
+erb = ERB.new(File.read(szSpecTemplate))
+
+puts erb.result
+
