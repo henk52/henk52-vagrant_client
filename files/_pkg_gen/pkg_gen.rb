@@ -7,6 +7,13 @@
 # Copyright:: Copyright (c) 2013 henk52.
 # License::   Apache License, Version 2.0
 
+# Required keys/metadata
+f_arRequiredModulefileKeys = [
+   "description",
+   "name",
+   "summary",
+   "version",
+                             ]
 # Finding out what the absolute path for this script, is.
 f_szScriptFullPath = File.expand_path(File.dirname(__FILE__))
 
@@ -56,17 +63,34 @@ arLinesRead.each { |szRawLine|
       szValue += szLine
     end
 
-    puts "Length: #{szValue.length()}, Quoute: #{szQuoteCharacter}, Last char: #{szValue[szValue.length()-1]}"
-#    puts "  szValue=#{szValue}="
+    # puts "Length: #{szValue.length()}, Quoute: #{szQuoteCharacter}, Last char: #{szValue[szValue.length()-1]}"
+    #    puts "  szValue=#{szValue}="
     if ( szValue[szValue.length()-1] == szQuoteCharacter ) then
       nHandleMultiline = 0
     end    
     
     # If we are no longer handling multiline, then save the key.
     if ( nHandleMultiline == 0 ) then
-      puts "Key: =#{szKey}=, Value: =#{szValue}="
+      #puts "Key: =#{szKey}=, Value: =#{szValue}="
+
       # replace all ' with " in szValue.
       hModulefileInformation[szKey] = szValue
     end
   end
 }
+
+nRequiredKeyMissing = 0
+
+# Make sure all requiered fields are defined.
+f_arRequiredModulefileKeys.each() { |szRequiredKey|
+  if ( ! hModulefileInformation.has_key?(szRequiredKey) ) then
+    puts "EEE Required key missing: '#{szRequiredKey}'"
+    nRequiredKeyMissing += 1
+  end
+}
+
+if ( nRequiredKeyMissing != 0 ) then
+  # TODO N handle the 's' when missing keys is more than 1.
+  puts "Please define the missing key(s) in the Modulefile: #{f_szAbsolutePathToModule}/Modulefile"
+  exit(1)
+end
