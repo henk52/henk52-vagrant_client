@@ -1,5 +1,8 @@
 #!/usr/bin/ruby
 
+# -k: Keep all files.
+# -h: help.
+
 require 'erb'
 
 # This program generates the OS package code based on the Puppet Modulefile.
@@ -97,9 +100,20 @@ if ( nRequiredKeyMissing != 0 ) then
   exit(1)
 end
 
+szFileList = `find . -type f | grep -e files -e manifests -e spec -e tests -e Modulefile -e README | grep -v _pkg_gen | sort`
+arTemporaryFileList = szFileList.split("\n")
+arRelativeFileList = Array.new()
+arTemporaryFileList.each { |szRawFileEntry|
+  # Drop './' in the beginning and newline at the end.
+  arRelativeFileList.push((szRawFileEntry[2..-1]).chomp)
+}
+
 szSpecTemplate = "#{f_szScriptFullPath}/rpm_spec.erb"
 
 erb = ERB.new(File.read(szSpecTemplate))
 
-puts erb.result
+#puts erb.result
+# Write the rpm spec file.
+File.open("#{f_szScriptFullPath}/rpm.spec", 'w') {|f| f.write(erb.result) }
 
+`rpmbuild --define 'builddir /home/vagrant/testBuildroot' -bb #{f_szScriptFullPath}/rpm.spec`

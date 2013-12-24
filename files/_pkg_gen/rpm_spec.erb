@@ -27,9 +27,10 @@ exit 0
 exit 0
 
 %install
-echo "INSTALL"
 mkdir -p %{buildroot}/etc/puppet/modules
-cp -r /home/vagrant/reidmv-motd %{buildroot}/etc/puppet/modules
+cd  <%= f_szAbsolutePathToModule %>; echo "<% arRelativeFileList.each do |szFileName| %><%= szFileName %>
+<% end %>Modulefile" | cpio -pVmd %{buildroot}/etc/puppet/modules/<%= hModulefileInformation["name"] %>
+echo "Install - done."
 exit 0
 
 %clean
@@ -37,9 +38,5 @@ exit 0
 
 %files
 %defattr(-,root,root)
-/etc/puppet/modules/reidmv-motd/README
-/etc/puppet/modules/reidmv-motd/Modulefile
-/etc/puppet/modules/reidmv-motd/manifests/init.pp
-/etc/puppet/modules/reidmv-motd/spec/spec_helper.rb
-/etc/puppet/modules/reidmv-motd/tests/init.pp
-
+<% arRelativeFileList.each do |szFileName| %>
+/etc/puppet/modules/<%= hModulefileInformation["name"] %>/<%= szFileName %><% end %>
