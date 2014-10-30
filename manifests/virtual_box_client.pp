@@ -97,9 +97,14 @@ exec { 'get_VBoxLinuxAdditions_run':
   require => File [ '/var/puppetextras' ],
 }
 
-
+file { '/var/puppetextras/VBoxLinuxAdditions.run':
+  ensure => file,
+  mode   => '555',
+  require => Exec [ 'get_VBoxLinuxAdditions_run' ],
+}
+  
 exec { 'install_VirtualBoxAdditions':
   creates => '/opt/VBoxGuestAddtions-4.3.18',
   command => '/var/puppetextras/VBoxLinuxAdditions.run',
-  require => Exec [ 'get_VBoxLinuxAdditions_run' ],
+  require => File [ '/var/puppetextras/VBoxLinuxAdditions.run' ],
 }
