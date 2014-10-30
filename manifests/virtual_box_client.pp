@@ -31,7 +31,6 @@ package { 'perl':
 # Install the 'vagrant' user
 package { 'openssh':
   ensure => present,
-  require => File [ 'repo_updates' ],
 }
 
 group { 'admin':
@@ -43,7 +42,7 @@ user { 'vagrant':
   groups     => [ 'admin' ],
   managehome => true,
   home       => '/home/vagrant',
-  comment    => 'Vagrant administrative user.'
+  comment    => 'Vagrant administrative user.',
   require    => Group [ 'admin' ],
 }
 
