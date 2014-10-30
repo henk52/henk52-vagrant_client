@@ -96,3 +96,10 @@ exec { 'get_VBoxLinuxAdditions_run':
   command => '/usr/bin/wget --directory-prefix=/var/puppetextras http://10.1.233.3:/storage/puppet/VBoxLinuxAdditions.run',
   require => File [ '/var/puppetextras' ],
 }
+
+
+exec { 'install_VirtualBoxAdditions':
+  creates => '/opt/VBoxGuestAddtions-4.3.18',
+  command => '/var/puppetextras/VBoxLinuxAdditions.run',
+  require => Exec [ 'get_VBoxLinuxAdditions_run' ],
+}
