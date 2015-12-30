@@ -93,7 +93,7 @@ file { '/var/puppetextras':
 
 exec { 'get_VBoxLinuxAdditions_run':
   creates => '/var/puppetextras/VBoxLinuxAdditions.run',
-  command => '/usr/bin/wget --directory-prefix=/var/puppetextras http://10.1.233.3:/storage/puppet/VBoxLinuxAdditions.run',
+  command => '/usr/bin/wget --directory-prefix=/var/puppetextras http://dm:/storage/puppet/VBoxLinuxAdditions.run',
   require => File [ '/var/puppetextras' ],
 }
 
