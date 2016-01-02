@@ -1,5 +1,5 @@
 name    'henk52-vagrant_client'
-version '0.1.1'
+version '0.1.2'
 source 'https://github.com/henk52/henk52-vagrant_client'
 author 'henk52'
 license 'Apache License, Version 2.0'
@@ -10,3 +10,5 @@ description 'This Puppet module provide the configuration neede to turn a Fedora
  VirtualBox (http://www.virtualbox.org).'
 
 project_page 'https://github.com/henk52/henk52-vagrant_client/wiki/Introduction-to-henk52-vagrant_client'
+
+dependency 'puppetlabs/stdlib', '>= 4.1.0'
