@@ -43,7 +43,7 @@ user { 'vagrant':
   managehome => true,
   home       => '/home/vagrant',
   comment    => 'Vagrant administrative user.',
-  require    => Group [ 'admin' ],
+  require    => Group[ 'admin' ],
 }
 
 file { '/home/vagrant/.ssh':
@@ -51,7 +51,7 @@ file { '/home/vagrant/.ssh':
   owner    => 'vagrant',
   group    => 'vagrant',
   mode     => '750',
-  require  => User [ 'vagrant' ],
+  require  => User[ 'vagrant' ],
 }
 
 exec { 'vagrant_rsa':
@@ -60,16 +60,16 @@ exec { 'vagrant_rsa':
   user     => 'vagrant',
   group    => 'vagrant',
   require  => [
-                User [ 'vagrant' ],
-                Package [ 'openssh' ],
-                File [ '/home/vagrant/.ssh' ],
+                User[ 'vagrant' ],
+                Package[ 'openssh' ],
+                File[ '/home/vagrant/.ssh' ],
               ],
 }
 
 # TODO V Make the content configurable, including enable to read it from  hiera.
 file { '//home/vagrant/.ssh/authorized_keys':
   ensure  => present,
-  require => File [ '/home/vagrant/.ssh' ],
+  require => File[ '/home/vagrant/.ssh' ],
   content => 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoPkcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0zQPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbUvxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key'
 }
 
@@ -94,17 +94,17 @@ file { '/var/puppetextras':
 exec { 'get_VBoxLinuxAdditions_run':
   creates => '/var/puppetextras/VBoxLinuxAdditions.run',
   command => '/usr/bin/wget --directory-prefix=/var/puppetextras http://dm:/storage/puppet/VBoxLinuxAdditions.run',
-  require => File [ '/var/puppetextras' ],
+  require => File[ '/var/puppetextras' ],
 }
 
 file { '/var/puppetextras/VBoxLinuxAdditions.run':
   ensure => file,
   mode   => '555',
-  require => Exec [ 'get_VBoxLinuxAdditions_run' ],
+  require => Exec[ 'get_VBoxLinuxAdditions_run' ],
 }
   
 exec { 'install_VirtualBoxAdditions':
   creates => '/opt/VBoxGuestAdditions-4.3.18',
   command => '/var/puppetextras/VBoxLinuxAdditions.run',
-  require => File [ '/var/puppetextras/VBoxLinuxAdditions.run' ],
+  require => File[ '/var/puppetextras/VBoxLinuxAdditions.run' ],
 }
